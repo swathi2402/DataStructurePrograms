@@ -7,9 +7,9 @@ import com.bridgelabz.linkedlist.INode;
 import com.bridgelabz.linkedlist.MyNode;
 import com.bridgelabz.stack.MyStack;
 
-public class AangramCheckStack {
+public class AnagramCheckStack {
 
-	private static ArrayList<Integer> printPrimeNumber() {
+	private static MyStack<Integer> getPrimeNumber() {
 		MyStack<Integer> myStack = new MyStack<Integer>();
 		for (int number = 2; number <= 1000; number++) {
 			boolean flag = true;
@@ -22,15 +22,9 @@ public class AangramCheckStack {
 				MyNode<Integer> tempNode = new MyNode<Integer>(number);
 				myStack.push(tempNode);
 			}
-
 		}
+		return myStack;
 
-		ArrayList<Integer> primeNumbers = new ArrayList<Integer>();
-		while (!myStack.isEmpty()) {
-			INode<Integer> poppedNumber = myStack.pop();
-			primeNumbers.add(poppedNumber.getKey());
-		}
-		return primeNumbers;
 	}
 
 	static boolean isAnagram(int firstInteger, int secondInteger) {
@@ -48,21 +42,26 @@ public class AangramCheckStack {
 
 	}
 
-	static void findAnagram(ArrayList<Integer> primeList) {
-		int sizeOfList = primeList.size();
+	static void findAnagram(MyStack<Integer> primeStack) {
+		int sizeOfList = primeStack.size();
+		ArrayList<Integer> primeNumbers = new ArrayList<Integer>();
+		while (!primeStack.isEmpty()) {
+			INode<Integer> poppedNumber = primeStack.pop();
+			primeNumbers.add(poppedNumber.getKey());
+		}
 		System.out.println("Prime number and anagram of prime number pair");
 		for (int i = 0; i < sizeOfList; i++) {
 			for (int j = i + 1; j < sizeOfList; j++) {
-				if (isAnagram(primeList.get(i), primeList.get(j))) {
-					System.out.println(primeList.get(i) + " " + primeList.get(j));
+				if (isAnagram(primeNumbers.get(i), primeNumbers.get(j))) {
+					System.out.println(primeNumbers.get(i) + " " + primeNumbers.get(j));
 				}
 			}
 		}
 	}
 
 	public static void main(String[] args) {
-		ArrayList<Integer> primeNumbers = printPrimeNumber();
-		findAnagram(primeNumbers);
+		MyStack<Integer> primeStack = getPrimeNumber();
+		findAnagram(primeStack);
 	}
 
 }

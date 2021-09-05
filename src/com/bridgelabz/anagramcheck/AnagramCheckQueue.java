@@ -8,8 +8,8 @@ import com.bridgelabz.linkedlist.MyNode;
 import com.bridgelabz.queue.MyQueue;
 
 public class AnagramCheckQueue {
-	
-	private static ArrayList<Integer> printPrimeNumber() {
+
+	private static MyQueue<Integer> getPrimeNumber() {
 		MyQueue<Integer> myQueue = new MyQueue<Integer>();
 		for (int number = 2; number <= 1000; number++) {
 			boolean flag = true;
@@ -25,14 +25,9 @@ public class AnagramCheckQueue {
 
 		}
 
-		ArrayList<Integer> primeNumbers = new ArrayList<Integer>();
-		while (!myQueue.isEmpty()) {
-			INode<Integer> poppedNumber = myQueue.dequeue();
-			primeNumbers.add(poppedNumber.getKey());
-		}
-		return primeNumbers;
+		return myQueue;
 	}
-	
+
 	static boolean isAnagram(int firstInteger, int secondInteger) {
 		String firstString = String.valueOf(firstInteger);
 		String secondString = String.valueOf(secondInteger);
@@ -47,21 +42,26 @@ public class AnagramCheckQueue {
 		return Arrays.equals(firstCharArray, secondCharArray);
 
 	}
-	
-	static void findAnagram(ArrayList<Integer> primeList) {
-		int sizeOfList = primeList.size();
+
+	static void findAnagram(MyQueue<Integer> primeQueue) {
+		int sizeOfList = primeQueue.size();
+		ArrayList<Integer> primeNumbers = new ArrayList<Integer>();
+		while (!primeQueue.isEmpty()) {
+			INode<Integer> poppedNumber = primeQueue.dequeue();
+			primeNumbers.add(poppedNumber.getKey());
+		}
 		System.out.println("Prime number and anagram of prime number pair");
 		for (int i = 0; i < sizeOfList; i++) {
 			for (int j = i + 1; j < sizeOfList; j++) {
-				if (isAnagram(primeList.get(i), primeList.get(j))) {
-					System.out.println(primeList.get(i) + " " + primeList.get(j));
+				if (isAnagram(primeNumbers.get(i), primeNumbers.get(j))) {
+					System.out.println(primeNumbers.get(i) + " " + primeNumbers.get(j));
 				}
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		ArrayList<Integer> primeNumbers = printPrimeNumber();
+		MyQueue<Integer> primeNumbers = getPrimeNumber();
 		findAnagram(primeNumbers);
 	}
 }
